@@ -22,4 +22,14 @@ class FormCubit extends Cubit<FormState> {
   void activateBaseAmount() {
     emit(state.copyWith(isBaseAmountActivated: true));
   }
+
+  void updateChainSize(double value) {
+    final size = value.toInt();
+    emit(state.copyWith(chainSize: size > 0 ? size : 0, isTouched: true));
+  }
+
+  void updateRecoveryRate(double value) {
+    final rate = value.toInt();
+    emit(state.copyWith(recoveryRate: rate > 0 ? rate : 0, isTouched: true));
+  }
 }

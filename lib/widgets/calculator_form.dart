@@ -5,8 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalculatorForm extends StatelessWidget {
   buildInputField(BuildContext context, String label,
-      {bool digitOnly = false, bool disabled = false, void Function()? onTap}) {
+      {bool digitOnly = false,
+      bool disabled = false,
+      void Function()? onTap,
+      void Function(String)? onChanged}) {
     return TextFormField(
+      onChanged: onChanged,
       onTap: onTap,
       enabled: !disabled,
       keyboardType: TextInputType.number,
@@ -27,6 +31,8 @@ class CalculatorForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<cubit.FormCubit, cubit.FormState>(
       builder: (context, state) {
+        print("Chain Size: ${state.chainSize}");
+        print("Recovery Rate: ${state.recoveryRate}");
         return buildForm(context, state);
       },
     );
@@ -52,7 +58,13 @@ class CalculatorForm extends StatelessWidget {
             ),
             Expanded(
                 flex: 1,
-                child: buildInputField(context, 'Chain Size', digitOnly: true)),
+                child: buildInputField(
+                  context,
+                  'Chain Size',
+                  digitOnly: true,
+                  onChanged: (newValue) =>
+                      onChainSizeChanged(context, newValue),
+                )),
           ],
         ),
         Row(
@@ -79,8 +91,13 @@ class CalculatorForm extends StatelessWidget {
             ),
             Expanded(
                 flex: 1,
-                child: buildInputField(context, 'Recovery Rate %',
-                    digitOnly: true)),
+                child: buildInputField(
+                  context,
+                  'Recovery Rate %',
+                  digitOnly: true,
+                  onChanged: (newValue) =>
+                      onRecoveryRateChanged(context, newValue),
+                )),
           ],
         ),
         Row(
@@ -99,6 +116,18 @@ class CalculatorForm extends StatelessWidget {
         )
       ],
     ));
+  }
+
+  void onChainSizeChanged(BuildContext context, String value) {
+    final size = double.tryParse(value);
+    BlocProvider.of<cubit.FormCubit>(context)
+        .updateChainSize(size == null ? 0 : size);
+  }
+
+  void onRecoveryRateChanged(BuildContext context, String value) {
+    final rate = double.tryParse(value);
+    BlocProvider.of<cubit.FormCubit>(context)
+        .updateRecoveryRate(rate == null ? 0 : rate);
   }
 
   void onCurrencySwitch(BuildContext context, bool isINR) {
