@@ -101,99 +101,104 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CalculatorForm(),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text("Chain Amounts"),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  BlocBuilder<cubit.FormCubit, cubit.FormState>(
-                    builder: (context, state) {
-                      return Wrap(
-                        runSpacing: 16,
-                        spacing: 16,
-                        children: [
-                          for (int index = 0;
-                              index < chainAmounts.length;
-                              index++)
-                            buildAmountChip(
-                                context,
-                                chainAmounts[index].toString(),
-                                index + 1,
-                                state.isINR
-                                    ? CurrencySymbol.INR
-                                    : CurrencySymbol.USD)
-                        ],
-                      );
-                    },
-                  ),
-                  SizedBox(
-                    height: 130,
-                  ),
-                ],
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CalculatorForm(),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text("Chain Amounts"),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    BlocBuilder<cubit.FormCubit, cubit.FormState>(
+                      builder: (context, state) {
+                        return Wrap(
+                          runSpacing: 16,
+                          spacing: 16,
+                          children: [
+                            for (int index = 0;
+                                index < chainAmounts.length;
+                                index++)
+                              buildAmountChip(
+                                  context,
+                                  chainAmounts[index].toString(),
+                                  index + 1,
+                                  state.isINR
+                                      ? CurrencySymbol.INR
+                                      : CurrencySymbol.USD)
+                          ],
+                        );
+                      },
+                    ),
+                    SizedBox(
+                      height: 130,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              margin: EdgeInsets.only(bottom: 26),
-              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-              // width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  // border: Border.all(),
-                  borderRadius: BorderRadius.circular(6),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 10,
-                        spreadRadius: 10,
-                        color: Colors.grey.withOpacity(0.1)),
-                  ]),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        "Selected Chain Size : ",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontStyle: FontStyle.italic),
-                      ),
-                      Text(
-                        "3",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.green),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  BlocBuilder<cubit.FormCubit, cubit.FormState>(
-                    builder: (context, state) {
-                      return Text(
-                        "${state.isINR ? CurrencySymbol.INR : CurrencySymbol.USD} 23425.45",
-                        style: TextStyle(fontSize: 26),
-                      );
-                    },
-                  ),
-                ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                margin: EdgeInsets.only(bottom: 26),
+                padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                // width: double.infinity,
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    // border: Border.all(),
+                    borderRadius: BorderRadius.circular(6),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 10,
+                          spreadRadius: 10,
+                          color: Colors.grey.withOpacity(0.1)),
+                    ]),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Selected Chain Size : ",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FontStyle.italic),
+                        ),
+                        Text(
+                          "3",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.green),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    BlocBuilder<cubit.FormCubit, cubit.FormState>(
+                      builder: (context, state) {
+                        return Text(
+                          "${state.isINR ? CurrencySymbol.INR : CurrencySymbol.USD} 23425.45",
+                          style: TextStyle(fontSize: 26),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
