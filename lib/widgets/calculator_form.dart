@@ -89,6 +89,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
         child: Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
               flex: 2,
@@ -131,6 +132,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Expanded(
                 flex: 2,
@@ -172,7 +174,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
           ],
         ),
         ElevatedButton(
-          onPressed: () => onCalculate(context),
+          onPressed: formState.validated ? () => onCalculate(context) : null,
           style: ElevatedButton.styleFrom(elevation: 0),
           child: Text("Calculate"),
         )

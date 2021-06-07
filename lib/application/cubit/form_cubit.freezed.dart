@@ -24,7 +24,8 @@ class _$FormStateTearOff {
       double baseAmount,
       bool isBaseAmountActivated,
       bool isTouched,
-      List<double> amounts) {
+      List<double> amounts,
+      bool validated) {
     return _FormState(
       isINR,
       chainSize,
@@ -34,6 +35,7 @@ class _$FormStateTearOff {
       isBaseAmountActivated,
       isTouched,
       amounts,
+      validated,
     );
   }
 }
@@ -51,6 +53,7 @@ mixin _$FormState {
   bool get isBaseAmountActivated => throw _privateConstructorUsedError;
   bool get isTouched => throw _privateConstructorUsedError;
   List<double> get amounts => throw _privateConstructorUsedError;
+  bool get validated => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FormStateCopyWith<FormState> get copyWith =>
@@ -69,7 +72,8 @@ abstract class $FormStateCopyWith<$Res> {
       double baseAmount,
       bool isBaseAmountActivated,
       bool isTouched,
-      List<double> amounts});
+      List<double> amounts,
+      bool validated});
 }
 
 /// @nodoc
@@ -90,6 +94,7 @@ class _$FormStateCopyWithImpl<$Res> implements $FormStateCopyWith<$Res> {
     Object? isBaseAmountActivated = freezed,
     Object? isTouched = freezed,
     Object? amounts = freezed,
+    Object? validated = freezed,
   }) {
     return _then(_value.copyWith(
       isINR: isINR == freezed
@@ -124,6 +129,10 @@ class _$FormStateCopyWithImpl<$Res> implements $FormStateCopyWith<$Res> {
           ? _value.amounts
           : amounts // ignore: cast_nullable_to_non_nullable
               as List<double>,
+      validated: validated == freezed
+          ? _value.validated
+          : validated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -142,7 +151,8 @@ abstract class _$FormStateCopyWith<$Res> implements $FormStateCopyWith<$Res> {
       double baseAmount,
       bool isBaseAmountActivated,
       bool isTouched,
-      List<double> amounts});
+      List<double> amounts,
+      bool validated});
 }
 
 /// @nodoc
@@ -164,6 +174,7 @@ class __$FormStateCopyWithImpl<$Res> extends _$FormStateCopyWithImpl<$Res>
     Object? isBaseAmountActivated = freezed,
     Object? isTouched = freezed,
     Object? amounts = freezed,
+    Object? validated = freezed,
   }) {
     return _then(_FormState(
       isINR == freezed
@@ -198,6 +209,10 @@ class __$FormStateCopyWithImpl<$Res> extends _$FormStateCopyWithImpl<$Res>
           ? _value.amounts
           : amounts // ignore: cast_nullable_to_non_nullable
               as List<double>,
+      validated == freezed
+          ? _value.validated
+          : validated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -213,7 +228,8 @@ class _$_FormState extends _FormState {
       this.baseAmount,
       this.isBaseAmountActivated,
       this.isTouched,
-      this.amounts)
+      this.amounts,
+      this.validated)
       : super._();
 
   @override
@@ -232,10 +248,12 @@ class _$_FormState extends _FormState {
   final bool isTouched;
   @override
   final List<double> amounts;
+  @override
+  final bool validated;
 
   @override
   String toString() {
-    return 'FormState(isINR: $isINR, chainSize: $chainSize, recoveryRate: $recoveryRate, totalInvestment: $totalInvestment, baseAmount: $baseAmount, isBaseAmountActivated: $isBaseAmountActivated, isTouched: $isTouched, amounts: $amounts)';
+    return 'FormState(isINR: $isINR, chainSize: $chainSize, recoveryRate: $recoveryRate, totalInvestment: $totalInvestment, baseAmount: $baseAmount, isBaseAmountActivated: $isBaseAmountActivated, isTouched: $isTouched, amounts: $amounts, validated: $validated)';
   }
 
   @override
@@ -263,7 +281,11 @@ class _$_FormState extends _FormState {
                 const DeepCollectionEquality()
                     .equals(other.isTouched, isTouched)) &&
             (identical(other.amounts, amounts) ||
-                const DeepCollectionEquality().equals(other.amounts, amounts)));
+                const DeepCollectionEquality()
+                    .equals(other.amounts, amounts)) &&
+            (identical(other.validated, validated) ||
+                const DeepCollectionEquality()
+                    .equals(other.validated, validated)));
   }
 
   @override
@@ -276,7 +298,8 @@ class _$_FormState extends _FormState {
       const DeepCollectionEquality().hash(baseAmount) ^
       const DeepCollectionEquality().hash(isBaseAmountActivated) ^
       const DeepCollectionEquality().hash(isTouched) ^
-      const DeepCollectionEquality().hash(amounts);
+      const DeepCollectionEquality().hash(amounts) ^
+      const DeepCollectionEquality().hash(validated);
 
   @JsonKey(ignore: true)
   @override
@@ -293,7 +316,8 @@ abstract class _FormState extends FormState {
       double baseAmount,
       bool isBaseAmountActivated,
       bool isTouched,
-      List<double> amounts) = _$_FormState;
+      List<double> amounts,
+      bool validated) = _$_FormState;
   const _FormState._() : super._();
 
   @override
@@ -312,6 +336,8 @@ abstract class _FormState extends FormState {
   bool get isTouched => throw _privateConstructorUsedError;
   @override
   List<double> get amounts => throw _privateConstructorUsedError;
+  @override
+  bool get validated => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$FormStateCopyWith<_FormState> get copyWith =>
