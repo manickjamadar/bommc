@@ -1,8 +1,12 @@
+import 'package:bommc/application/cubit/form_cubit.dart' as cubit;
+import 'package:bommc/helpers/currency_symbol.dart';
 import 'package:bommc/widgets/calculator_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  buildAmountChip(BuildContext context, String amount, int position) {
+  buildAmountChip(BuildContext context, String amount, int position,
+      String currencySymbol) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
         decoration: BoxDecoration(
@@ -29,7 +33,7 @@ class HomeScreen extends StatelessWidget {
               width: 10,
             ),
             Text(
-              "\$ $amount",
+              "$currencySymbol $amount",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
@@ -113,14 +117,25 @@ class HomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 16,
                   ),
-                  Wrap(
-                    runSpacing: 16,
-                    spacing: 16,
-                    children: [
-                      for (int index = 0; index < chainAmounts.length; index++)
-                        buildAmountChip(
-                            context, chainAmounts[index].toString(), index + 1)
-                    ],
+                  BlocBuilder<cubit.FormCubit, cubit.FormState>(
+                    builder: (context, state) {
+                      return Wrap(
+                        runSpacing: 16,
+                        spacing: 16,
+                        children: [
+                          for (int index = 0;
+                              index < chainAmounts.length;
+                              index++)
+                            buildAmountChip(
+                                context,
+                                chainAmounts[index].toString(),
+                                index + 1,
+                                state.isINR
+                                    ? CurrencySymbol.INR
+                                    : CurrencySymbol.USD)
+                        ],
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 130,
@@ -166,9 +181,13 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 10),
-                  Text(
-                    "\$ 23425.45",
-                    style: TextStyle(fontSize: 26),
+                  BlocBuilder<cubit.FormCubit, cubit.FormState>(
+                    builder: (context, state) {
+                      return Text(
+                        "${state.isINR ? CurrencySymbol.INR : CurrencySymbol.USD} 23425.45",
+                        style: TextStyle(fontSize: 26),
+                      );
+                    },
                   ),
                 ],
               ),

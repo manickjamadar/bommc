@@ -37,7 +37,9 @@ class CalculatorForm extends StatelessWidget {
         Row(
           children: [
             Expanded(
-                flex: 2, child: buildInputField(context, 'Total Investment')),
+                flex: 2,
+                child: buildInputField(context, 'Total Investment',
+                    digitOnly: formState.isINR)),
             SizedBox(
               width: 20,
             ),
@@ -49,7 +51,10 @@ class CalculatorForm extends StatelessWidget {
         SizedBox(height: 20),
         Row(
           children: [
-            Expanded(flex: 2, child: buildInputField(context, 'Base Amount')),
+            Expanded(
+                flex: 2,
+                child: buildInputField(context, 'Base Amount',
+                    digitOnly: formState.isINR)),
             SizedBox(
               width: 20,
             ),
@@ -61,9 +66,11 @@ class CalculatorForm extends StatelessWidget {
         ),
         Row(
           children: [
-            Text("INR"),
-            Switch(value: false, onChanged: (newValue) {}),
             Text("USD"),
+            Switch(
+                value: formState.isINR,
+                onChanged: (newValue) => onCurrencySwitch(context, newValue)),
+            Text("INR"),
           ],
         ),
         ElevatedButton(
@@ -73,5 +80,13 @@ class CalculatorForm extends StatelessWidget {
         )
       ],
     ));
+  }
+
+  void onCurrencySwitch(BuildContext context, bool isINR) {
+    if (isINR) {
+      BlocProvider.of<cubit.FormCubit>(context).switchToINR();
+    } else {
+      BlocProvider.of<cubit.FormCubit>(context).switchToUSD();
+    }
   }
 }
