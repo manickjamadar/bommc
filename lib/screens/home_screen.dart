@@ -45,53 +45,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const chainAmounts = [
-      73,
-      87,
-      191,
-      418,
-      916,
-      87,
-      191,
-      418,
-      916,
-      1050,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-      // 87,
-      // 191,
-      // 418,
-      // 916,
-    ];
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -123,22 +76,28 @@ class HomeScreen extends StatelessWidget {
                     ),
                     BlocBuilder<cubit.FormCubit, cubit.FormState>(
                       builder: (context, state) {
-                        return Wrap(
-                          runSpacing: 16,
-                          spacing: 16,
-                          children: [
-                            for (int index = 0;
-                                index < chainAmounts.length;
-                                index++)
-                              buildAmountChip(
-                                  context,
-                                  chainAmounts[index].toString(),
-                                  index + 1,
-                                  state.isINR
-                                      ? CurrencySymbol.INR
-                                      : CurrencySymbol.USD)
-                          ],
-                        );
+                        return state.amounts.isEmpty
+                            ? Center(
+                                child: Text(
+                                "No Amounts Available",
+                                style: TextStyle(color: Colors.grey),
+                              ))
+                            : Wrap(
+                                runSpacing: 16,
+                                spacing: 16,
+                                children: [
+                                  for (int index = 0;
+                                      index < state.amounts.length;
+                                      index++)
+                                    buildAmountChip(
+                                        context,
+                                        state.amounts[index].toString(),
+                                        index + 1,
+                                        state.isINR
+                                            ? CurrencySymbol.INR
+                                            : CurrencySymbol.USD)
+                                ],
+                              );
                       },
                     ),
                     SizedBox(
