@@ -14,4 +14,12 @@ class FormCubit extends Cubit<FormState> {
   void switchToUSD() {
     emit(state.copyWith(isINR: false));
   }
+
+  void activateTotalInvestment() {
+    emit(state.copyWith(isBaseAmountActivated: false));
+  }
+
+  void activateBaseAmount() {
+    emit(state.copyWith(isBaseAmountActivated: true));
+  }
 }

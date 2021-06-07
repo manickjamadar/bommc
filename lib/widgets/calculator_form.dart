@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalculatorForm extends StatelessWidget {
   buildInputField(BuildContext context, String label,
-      {bool digitOnly = false}) {
+      {bool digitOnly = false, bool disabled = false, void Function()? onTap}) {
     return TextFormField(
+      onTap: onTap,
+      enabled: !disabled,
       keyboardType: TextInputType.number,
       inputFormatters: [
         digitOnly
@@ -37,9 +39,14 @@ class CalculatorForm extends StatelessWidget {
         Row(
           children: [
             Expanded(
-                flex: 2,
-                child: buildInputField(context, 'Total Investment',
-                    digitOnly: formState.isINR)),
+              flex: 2,
+              child: buildInputField(
+                context,
+                'Total Investment',
+                digitOnly: formState.isINR,
+                disabled: formState.isBaseAmountActivated,
+              ),
+            ),
             SizedBox(
               width: 20,
             ),
@@ -48,13 +55,25 @@ class CalculatorForm extends StatelessWidget {
                 child: buildInputField(context, 'Chain Size', digitOnly: true)),
           ],
         ),
-        SizedBox(height: 20),
+        Row(
+          children: [
+            Text("Switch "),
+            Switch(
+                value: formState.isBaseAmountActivated,
+                onChanged: (newValue) =>
+                    onCalculationTypeSwitch(context, newValue))
+          ],
+        ),
         Row(
           children: [
             Expanded(
                 flex: 2,
-                child: buildInputField(context, 'Base Amount',
-                    digitOnly: formState.isINR)),
+                child: buildInputField(
+                  context,
+                  'Base Amount',
+                  digitOnly: formState.isINR,
+                  disabled: formState.isTotalInvestementActivated,
+                )),
             SizedBox(
               width: 20,
             ),
@@ -87,6 +106,15 @@ class CalculatorForm extends StatelessWidget {
       BlocProvider.of<cubit.FormCubit>(context).switchToINR();
     } else {
       BlocProvider.of<cubit.FormCubit>(context).switchToUSD();
+    }
+  }
+
+  void onCalculationTypeSwitch(
+      BuildContext context, bool isBaseAmountActivated) {
+    if (isBaseAmountActivated) {
+      BlocProvider.of<cubit.FormCubit>(context).activateBaseAmount();
+    } else {
+      BlocProvider.of<cubit.FormCubit>(context).activateTotalInvestment();
     }
   }
 }
