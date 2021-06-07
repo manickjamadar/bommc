@@ -1,17 +1,7 @@
+import 'package:bommc/widgets/calculator_form.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  buildInputField(BuildContext context, String label) {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10),
-          border: OutlineInputBorder(),
-          labelText: label,
-          labelStyle: TextStyle(fontSize: 14)),
-    );
-  }
-
   buildAmountChip(BuildContext context, String amount, int position) {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
@@ -73,30 +63,30 @@ class HomeScreen extends StatelessWidget {
       // 191,
       // 418,
       // 916,
-      87,
-      191,
-      418,
-      916,
-      87,
-      191,
-      418,
-      916,
-      87,
-      191,
-      418,
-      916,
-      87,
-      191,
-      418,
-      916,
-      87,
-      191,
-      418,
-      916,
-      87,
-      191,
-      418,
-      916,
+      // 87,
+      // 191,
+      // 418,
+      // 916,
+      // 87,
+      // 191,
+      // 418,
+      // 916,
+      // 87,
+      // 191,
+      // 418,
+      // 916,
+      // 87,
+      // 191,
+      // 418,
+      // 916,
+      // 87,
+      // 191,
+      // 418,
+      // 916,
+      // 87,
+      // 191,
+      // 418,
+      // 916,
     ];
     return Scaffold(
       appBar: AppBar(
@@ -115,52 +105,7 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Form(
-                      child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child:
-                                  buildInputField(context, 'Total Investment')),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child: buildInputField(context, 'Chain Size')),
-                        ],
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: buildInputField(context, 'Base Amount')),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Expanded(
-                              flex: 1,
-                              child:
-                                  buildInputField(context, 'Recovery Rate %')),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text("INR"),
-                          Switch(value: true, onChanged: (newValue) {}),
-                          Text("USD"),
-                        ],
-                      ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(elevation: 0),
-                        child: Text("Calculate"),
-                      )
-                    ],
-                  )),
+                  CalculatorForm(),
                   SizedBox(
                     height: 16,
                   ),
