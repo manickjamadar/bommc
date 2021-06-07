@@ -1,5 +1,7 @@
+import 'package:bommc/application/cubit/form_cubit.dart' as cubit;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CalculatorForm extends StatelessWidget {
   buildInputField(BuildContext context, String label,
@@ -21,6 +23,14 @@ class CalculatorForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return BlocBuilder<cubit.FormCubit, cubit.FormState>(
+      builder: (context, state) {
+        return buildForm(context, state);
+      },
+    );
+  }
+
+  Widget buildForm(BuildContext context, cubit.FormState formState) {
     return Form(
         child: Column(
       children: [
