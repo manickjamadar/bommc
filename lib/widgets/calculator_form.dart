@@ -31,8 +31,8 @@ class CalculatorForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<cubit.FormCubit, cubit.FormState>(
       builder: (context, state) {
-        print("Chain Size: ${state.chainSize}");
-        print("Recovery Rate: ${state.recoveryRate}");
+        print("Total Investment : ${state.totalInvestment}");
+        print("Base Amount: ${state.baseAmount}");
         return buildForm(context, state);
       },
     );
@@ -51,6 +51,8 @@ class CalculatorForm extends StatelessWidget {
                 'Total Investment',
                 digitOnly: formState.isINR,
                 disabled: formState.isBaseAmountActivated,
+                onChanged: (newValue) =>
+                    onTotalInvestmentChanged(context, newValue),
               ),
             ),
             SizedBox(
@@ -85,6 +87,8 @@ class CalculatorForm extends StatelessWidget {
                   'Base Amount',
                   digitOnly: formState.isINR,
                   disabled: formState.isTotalInvestementActivated,
+                  onChanged: (newValue) =>
+                      onBaseAmountChanged(context, newValue),
                 )),
             SizedBox(
               width: 20,
@@ -128,6 +132,18 @@ class CalculatorForm extends StatelessWidget {
     final rate = double.tryParse(value);
     BlocProvider.of<cubit.FormCubit>(context)
         .updateRecoveryRate(rate == null ? 0 : rate);
+  }
+
+  void onBaseAmountChanged(BuildContext context, String value) {
+    final amount = double.tryParse(value);
+    BlocProvider.of<cubit.FormCubit>(context)
+        .updateBaseAmount(amount == null ? 0 : amount);
+  }
+
+  void onTotalInvestmentChanged(BuildContext context, String value) {
+    final amount = double.tryParse(value);
+    BlocProvider.of<cubit.FormCubit>(context)
+        .updateTotalInvestment(amount == null ? 0 : amount);
   }
 
   void onCurrencySwitch(BuildContext context, bool isINR) {

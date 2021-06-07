@@ -32,4 +32,18 @@ class FormCubit extends Cubit<FormState> {
     final rate = value.toInt();
     emit(state.copyWith(recoveryRate: rate > 0 ? rate : 0, isTouched: true));
   }
+
+  void updateBaseAmount(double value) {
+    if (state.isBaseAmountActivated) {
+      double amount = value > 0 ? value : 0;
+      emit(state.copyWith(baseAmount: amount, isTouched: true));
+    }
+  }
+
+  void updateTotalInvestment(double value) {
+    if (state.isTotalInvestementActivated) {
+      double amount = value > 0 ? value : 0;
+      emit(state.copyWith(totalInvestment: amount, isTouched: true));
+    }
+  }
 }
