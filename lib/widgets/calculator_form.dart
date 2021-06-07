@@ -37,7 +37,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
       void Function()? onTap,
       void Function(String)? onChanged,
       TextEditingController? controller,
-      FocusNode? focusNode}) {
+      FocusNode? focusNode,
+      String? errorText}) {
     return TextFormField(
       focusNode: focusNode,
       controller: controller,
@@ -54,7 +55,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
           contentPadding: EdgeInsets.all(10),
           border: OutlineInputBorder(),
           labelText: label,
-          labelStyle: TextStyle(fontSize: 14)),
+          labelStyle: TextStyle(fontSize: 14),
+          errorText: errorText),
     );
   }
 
@@ -97,6 +99,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
                 focusNode: _totalInvestmentFocusNode,
                 digitOnly: formState.isINR,
                 disabled: formState.isBaseAmountActivated,
+                errorText: getErrorText(
+                    formState.totalInvestment, formState.isTouched),
                 onChanged: (newValue) =>
                     onTotalInvestmentChanged(context, newValue),
               ),
@@ -110,6 +114,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
                   context,
                   'Chain Size',
                   digitOnly: true,
+                  errorText: getErrorText(
+                      formState.chainSize.toDouble(), formState.isTouched),
                   onChanged: (newValue) =>
                       onChainSizeChanged(context, newValue),
                 )),
@@ -135,6 +141,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
                   focusNode: _baseAmountFocusNode,
                   digitOnly: formState.isINR,
                   disabled: formState.isTotalInvestementActivated,
+                  errorText:
+                      getErrorText(formState.baseAmount, formState.isTouched),
                   onChanged: (newValue) =>
                       onBaseAmountChanged(context, newValue),
                 )),
@@ -147,6 +155,8 @@ class _CalculatorFormState extends State<CalculatorForm> {
                   context,
                   'Recovery Rate %',
                   digitOnly: true,
+                  errorText: getErrorText(
+                      formState.recoveryRate.toDouble(), formState.isTouched),
                   onChanged: (newValue) =>
                       onRecoveryRateChanged(context, newValue),
                 )),
@@ -223,5 +233,9 @@ class _CalculatorFormState extends State<CalculatorForm> {
   void onCalculate(BuildContext context) {
     unFocuskeyboard(context);
     print("calculated");
+  }
+
+  String? getErrorText(double value, bool isTouched) {
+    return value <= 0 && isTouched ? "Required" : null;
   }
 }
