@@ -91,7 +91,11 @@ class HomeScreen extends StatelessWidget {
                                       index++)
                                     buildAmountChip(
                                         context,
-                                        state.amounts[index].toString(),
+                                        state.isINR
+                                            ? state.amounts[index]
+                                                .ceil()
+                                                .toString()
+                                            : state.amounts[index].toString(),
                                         index + 1,
                                         state.isINR
                                             ? CurrencySymbol.INR

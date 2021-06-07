@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -60,7 +62,10 @@ class FormCubit extends Cubit<FormState> {
   }
 
   bool isFormValidated(FormState currentState) {
-    if (currentState.chainSize <= 0 || currentState.recoveryRate <= 0) {
+    if (currentState.chainSize <= 1) {
+      return false;
+    }
+    if (currentState.recoveryRate <= 0) {
       return false;
     }
     if (currentState.isTotalInvestementActivated &&
@@ -71,5 +76,60 @@ class FormCubit extends Cubit<FormState> {
       return false;
     }
     return true;
+  }
+
+  double _ceilToINR(double amount) {
+    return amount.ceil().toDouble();
+  }
+
+  double _floorToINR(double amount) {
+    return amount.floor().toDouble();
+  }
+
+  double _ceilToUSD(double amount) {
+    return (amount * 100).ceil() / 100;
+  }
+
+  double _floorToUSD(double amount) {
+    return (amount * 100).floor() / 100;
+  }
+
+  double _ceilAmount(double amount) {
+    return state.isINR ? _ceilToINR(amount) : _ceilToUSD(amount);
+  }
+
+  double _floorAmount(double amount) {
+    return state.isINR ? _floorToINR(amount) : _floorToUSD(amount);
+  }
+
+  void calculate() {
+    double actualBaseAmount = _ceilAmount(state.baseAmount);
+    if (state.isTotalInvestementActivated) {
+      double actualTotalInvestment = _ceilAmount(state.totalInvestment);
+      actualBaseAmount = _calculateBaseAmount(
+          actualTotalInvestment, state.chainSize, state.recoveryRate);
+    }
+    _emit(state.copyWith(
+        amounts: calculateAmounts(
+            actualBaseAmount, state.chainSize, state.recoveryRate)));
+  }
+
+  double _calculateBaseAmount(
+      double totalInvestment, int chainSize, int recoveryRate) {
+    final baseAmount = totalInvestment /
+        pow((recoveryRate + 100) / recoveryRate, chainSize - 1);
+    return _floorAmount(baseAmount);
+  }
+
+  List<double> calculateAmounts(
+      double baseAmount, int chainSize, int recoveryRate) {
+    final amounts = [baseAmount];
+    double totalAmount = baseAmount;
+    for (var i = 2; i <= chainSize; i++) {
+      final nextAmount = _ceilAmount(totalAmount * 100 / recoveryRate);
+      totalAmount = totalAmount + nextAmount;
+      amounts.add(nextAmount);
+    }
+    return amounts;
   }
 }

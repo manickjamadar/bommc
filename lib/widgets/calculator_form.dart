@@ -46,11 +46,11 @@ class _CalculatorFormState extends State<CalculatorForm> {
       onTap: onTap,
       enabled: !disabled,
       keyboardType: TextInputType.number,
-      inputFormatters: [
-        digitOnly
-            ? FilteringTextInputFormatter.digitsOnly
-            : FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-      ],
+      // inputFormatters: [
+      //   digitOnly
+      //       ? FilteringTextInputFormatter.digitsOnly
+      //       : FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+      // ],
       decoration: InputDecoration(
           contentPadding: EdgeInsets.all(10),
           border: OutlineInputBorder(),
@@ -69,12 +69,6 @@ class _CalculatorFormState extends State<CalculatorForm> {
                 currentState.isTotalInvestementActivated) {
           print(previousState);
           resetAmountInputs();
-        }
-        if (currentState.isBaseAmountActivated) {
-          _baseAmountFocusNode.requestFocus();
-        }
-        if (currentState.isTotalInvestementActivated) {
-          _baseAmountFocusNode.requestFocus();
         }
         return true;
       },
@@ -234,7 +228,7 @@ class _CalculatorFormState extends State<CalculatorForm> {
 
   void onCalculate(BuildContext context) {
     unFocuskeyboard(context);
-    print("calculated");
+    BlocProvider.of<cubit.FormCubit>(context).calculate();
   }
 
   String? getErrorText(double value, bool isTouched) {
