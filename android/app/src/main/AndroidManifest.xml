@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.creanick.bommc">
    <application
-        android:label="bommc"
+        android:label="BOMMC"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
