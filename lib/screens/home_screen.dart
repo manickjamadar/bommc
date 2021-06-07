@@ -127,36 +127,37 @@ class HomeScreen extends StatelessWidget {
                           spreadRadius: 10,
                           color: Colors.grey.withOpacity(0.1)),
                     ]),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Row(
+                child: BlocBuilder<cubit.FormCubit, cubit.FormState>(
+                  builder: (context, state) {
+                    return Column(
                       mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Text(
-                          "Selected Chain Size : ",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontStyle: FontStyle.italic),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Selected Chain Size : ",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FontStyle.italic),
+                            ),
+                            Text(
+                              state.selectedChainSize.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.green),
+                            )
+                          ],
                         ),
+                        SizedBox(height: 10),
                         Text(
-                          "3",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.green),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    BlocBuilder<cubit.FormCubit, cubit.FormState>(
-                      builder: (context, state) {
-                        return Text(
-                          "${state.isINR ? CurrencySymbol.INR : CurrencySymbol.USD} 23425.45",
+                          "${state.isINR ? CurrencySymbol.INR : CurrencySymbol.USD} ${state.isINR ? state.selectedTotalAmount.ceil() : state.selectedTotalAmount}",
                           style: TextStyle(fontSize: 26),
-                        );
-                      },
-                    ),
-                  ],
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

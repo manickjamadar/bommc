@@ -25,7 +25,9 @@ class _$FormStateTearOff {
       bool isBaseAmountActivated,
       bool isTouched,
       List<double> amounts,
-      bool validated) {
+      bool validated,
+      int selectedChainSize,
+      double selectedTotalAmount) {
     return _FormState(
       isINR,
       chainSize,
@@ -36,6 +38,8 @@ class _$FormStateTearOff {
       isTouched,
       amounts,
       validated,
+      selectedChainSize,
+      selectedTotalAmount,
     );
   }
 }
@@ -54,6 +58,8 @@ mixin _$FormState {
   bool get isTouched => throw _privateConstructorUsedError;
   List<double> get amounts => throw _privateConstructorUsedError;
   bool get validated => throw _privateConstructorUsedError;
+  int get selectedChainSize => throw _privateConstructorUsedError;
+  double get selectedTotalAmount => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $FormStateCopyWith<FormState> get copyWith =>
@@ -73,7 +79,9 @@ abstract class $FormStateCopyWith<$Res> {
       bool isBaseAmountActivated,
       bool isTouched,
       List<double> amounts,
-      bool validated});
+      bool validated,
+      int selectedChainSize,
+      double selectedTotalAmount});
 }
 
 /// @nodoc
@@ -95,6 +103,8 @@ class _$FormStateCopyWithImpl<$Res> implements $FormStateCopyWith<$Res> {
     Object? isTouched = freezed,
     Object? amounts = freezed,
     Object? validated = freezed,
+    Object? selectedChainSize = freezed,
+    Object? selectedTotalAmount = freezed,
   }) {
     return _then(_value.copyWith(
       isINR: isINR == freezed
@@ -133,6 +143,14 @@ class _$FormStateCopyWithImpl<$Res> implements $FormStateCopyWith<$Res> {
           ? _value.validated
           : validated // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedChainSize: selectedChainSize == freezed
+          ? _value.selectedChainSize
+          : selectedChainSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      selectedTotalAmount: selectedTotalAmount == freezed
+          ? _value.selectedTotalAmount
+          : selectedTotalAmount // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -152,7 +170,9 @@ abstract class _$FormStateCopyWith<$Res> implements $FormStateCopyWith<$Res> {
       bool isBaseAmountActivated,
       bool isTouched,
       List<double> amounts,
-      bool validated});
+      bool validated,
+      int selectedChainSize,
+      double selectedTotalAmount});
 }
 
 /// @nodoc
@@ -175,6 +195,8 @@ class __$FormStateCopyWithImpl<$Res> extends _$FormStateCopyWithImpl<$Res>
     Object? isTouched = freezed,
     Object? amounts = freezed,
     Object? validated = freezed,
+    Object? selectedChainSize = freezed,
+    Object? selectedTotalAmount = freezed,
   }) {
     return _then(_FormState(
       isINR == freezed
@@ -213,6 +235,14 @@ class __$FormStateCopyWithImpl<$Res> extends _$FormStateCopyWithImpl<$Res>
           ? _value.validated
           : validated // ignore: cast_nullable_to_non_nullable
               as bool,
+      selectedChainSize == freezed
+          ? _value.selectedChainSize
+          : selectedChainSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      selectedTotalAmount == freezed
+          ? _value.selectedTotalAmount
+          : selectedTotalAmount // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -229,7 +259,9 @@ class _$_FormState extends _FormState {
       this.isBaseAmountActivated,
       this.isTouched,
       this.amounts,
-      this.validated)
+      this.validated,
+      this.selectedChainSize,
+      this.selectedTotalAmount)
       : super._();
 
   @override
@@ -250,10 +282,14 @@ class _$_FormState extends _FormState {
   final List<double> amounts;
   @override
   final bool validated;
+  @override
+  final int selectedChainSize;
+  @override
+  final double selectedTotalAmount;
 
   @override
   String toString() {
-    return 'FormState(isINR: $isINR, chainSize: $chainSize, recoveryRate: $recoveryRate, totalInvestment: $totalInvestment, baseAmount: $baseAmount, isBaseAmountActivated: $isBaseAmountActivated, isTouched: $isTouched, amounts: $amounts, validated: $validated)';
+    return 'FormState(isINR: $isINR, chainSize: $chainSize, recoveryRate: $recoveryRate, totalInvestment: $totalInvestment, baseAmount: $baseAmount, isBaseAmountActivated: $isBaseAmountActivated, isTouched: $isTouched, amounts: $amounts, validated: $validated, selectedChainSize: $selectedChainSize, selectedTotalAmount: $selectedTotalAmount)';
   }
 
   @override
@@ -285,7 +321,13 @@ class _$_FormState extends _FormState {
                     .equals(other.amounts, amounts)) &&
             (identical(other.validated, validated) ||
                 const DeepCollectionEquality()
-                    .equals(other.validated, validated)));
+                    .equals(other.validated, validated)) &&
+            (identical(other.selectedChainSize, selectedChainSize) ||
+                const DeepCollectionEquality()
+                    .equals(other.selectedChainSize, selectedChainSize)) &&
+            (identical(other.selectedTotalAmount, selectedTotalAmount) ||
+                const DeepCollectionEquality()
+                    .equals(other.selectedTotalAmount, selectedTotalAmount)));
   }
 
   @override
@@ -299,7 +341,9 @@ class _$_FormState extends _FormState {
       const DeepCollectionEquality().hash(isBaseAmountActivated) ^
       const DeepCollectionEquality().hash(isTouched) ^
       const DeepCollectionEquality().hash(amounts) ^
-      const DeepCollectionEquality().hash(validated);
+      const DeepCollectionEquality().hash(validated) ^
+      const DeepCollectionEquality().hash(selectedChainSize) ^
+      const DeepCollectionEquality().hash(selectedTotalAmount);
 
   @JsonKey(ignore: true)
   @override
@@ -317,7 +361,9 @@ abstract class _FormState extends FormState {
       bool isBaseAmountActivated,
       bool isTouched,
       List<double> amounts,
-      bool validated) = _$_FormState;
+      bool validated,
+      int selectedChainSize,
+      double selectedTotalAmount) = _$_FormState;
   const _FormState._() : super._();
 
   @override
@@ -338,6 +384,10 @@ abstract class _FormState extends FormState {
   List<double> get amounts => throw _privateConstructorUsedError;
   @override
   bool get validated => throw _privateConstructorUsedError;
+  @override
+  int get selectedChainSize => throw _privateConstructorUsedError;
+  @override
+  double get selectedTotalAmount => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$FormStateCopyWith<_FormState> get copyWith =>

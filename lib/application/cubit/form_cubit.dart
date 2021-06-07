@@ -102,6 +102,15 @@ class FormCubit extends Cubit<FormState> {
     return state.isINR ? _floorToINR(amount) : _floorToUSD(amount);
   }
 
+  void selectAmount(int chainSize) {
+    if (state.amounts.isEmpty || chainSize < 1) {
+      return;
+    }
+    _emit(state.copyWith(
+        selectedChainSize: chainSize,
+        selectedTotalAmount: _calculateTotalAmount(state.amounts, chainSize)));
+  }
+
   void calculate() {
     double actualBaseAmount = _ceilAmount(state.baseAmount);
     if (state.isTotalInvestementActivated) {
@@ -110,8 +119,9 @@ class FormCubit extends Cubit<FormState> {
           actualTotalInvestment, state.chainSize, state.recoveryRate);
     }
     _emit(state.copyWith(
-        amounts: calculateAmounts(
+        amounts: _calculateAmounts(
             actualBaseAmount, state.chainSize, state.recoveryRate)));
+    selectAmount(state.chainSize);
   }
 
   double _calculateBaseAmount(
@@ -121,7 +131,7 @@ class FormCubit extends Cubit<FormState> {
     return _floorAmount(baseAmount);
   }
 
-  List<double> calculateAmounts(
+  List<double> _calculateAmounts(
       double baseAmount, int chainSize, int recoveryRate) {
     final amounts = [baseAmount];
     double totalAmount = baseAmount;
@@ -131,5 +141,13 @@ class FormCubit extends Cubit<FormState> {
       amounts.add(nextAmount);
     }
     return amounts;
+  }
+
+  double _calculateTotalAmount(List<double> amounts, int length) {
+    double totalAmount = 0;
+    for (var i = 0; i < length; i++) {
+      totalAmount = amounts[i] + totalAmount;
+    }
+    return _ceilAmount(totalAmount);
   }
 }

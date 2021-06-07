@@ -13,12 +13,14 @@ class FormState with _$FormState {
     bool isTouched,
     List<double> amounts,
     bool validated,
+    int selectedChainSize,
+    double selectedTotalAmount,
   ) = _FormState;
 
   bool get isUSD => !isINR;
   bool get isTotalInvestementActivated => !isBaseAmountActivated;
 
   static FormState initial() {
-    return FormState(true, 0, 0, 0, 0, false, false, [], false);
+    return FormState(true, 0, 0, 0, 0, false, false, [], false, 0, 0);
   }
 }
