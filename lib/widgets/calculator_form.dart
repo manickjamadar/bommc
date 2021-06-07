@@ -3,13 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CalculatorForm extends StatelessWidget {
+class CalculatorForm extends StatefulWidget {
+  @override
+  _CalculatorFormState createState() => _CalculatorFormState();
+}
+
+class _CalculatorFormState extends State<CalculatorForm> {
+  late TextEditingController _baseAmountController;
+  late TextEditingController _totalInvestmentController;
+  late FocusNode _baseAmountFocusNode;
+  late FocusNode _totalInvestmentFocusNode;
+  @override
+  initState() {
+    super.initState();
+    _baseAmountController = new TextEditingController();
+    _totalInvestmentController = new TextEditingController();
+    _baseAmountFocusNode = new FocusNode();
+    _totalInvestmentFocusNode = new FocusNode();
+  }
+
+  @override
+  dispose() {
+    _baseAmountController.dispose();
+    _totalInvestmentController.dispose();
+    _baseAmountFocusNode.dispose();
+    _totalInvestmentFocusNode.dispose();
+    super.dispose();
+  }
+
   buildInputField(BuildContext context, String label,
       {bool digitOnly = false,
       bool disabled = false,
       void Function()? onTap,
-      void Function(String)? onChanged}) {
+      void Function(String)? onChanged,
+      TextEditingController? controller,
+      FocusNode? focusNode}) {
     return TextFormField(
+      focusNode: focusNode,
+      controller: controller,
       onChanged: onChanged,
       onTap: onTap,
       enabled: !disabled,
@@ -30,9 +61,22 @@ class CalculatorForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<cubit.FormCubit, cubit.FormState>(
+      buildWhen: (previousState, currentState) {
+        if (previousState.isINR == currentState.isUSD ||
+            previousState.isBaseAmountActivated ==
+                currentState.isTotalInvestementActivated) {
+          print(previousState);
+          resetAmountInputs();
+        }
+        if (currentState.isBaseAmountActivated) {
+          _baseAmountFocusNode.requestFocus();
+        }
+        if (currentState.isTotalInvestementActivated) {
+          _baseAmountFocusNode.requestFocus();
+        }
+        return true;
+      },
       builder: (context, state) {
-        print("Total Investment : ${state.totalInvestment}");
-        print("Base Amount: ${state.baseAmount}");
         return buildForm(context, state);
       },
     );
@@ -49,6 +93,8 @@ class CalculatorForm extends StatelessWidget {
               child: buildInputField(
                 context,
                 'Total Investment',
+                controller: _totalInvestmentController,
+                focusNode: _totalInvestmentFocusNode,
                 digitOnly: formState.isINR,
                 disabled: formState.isBaseAmountActivated,
                 onChanged: (newValue) =>
@@ -85,6 +131,8 @@ class CalculatorForm extends StatelessWidget {
                 child: buildInputField(
                   context,
                   'Base Amount',
+                  controller: _baseAmountController,
+                  focusNode: _baseAmountFocusNode,
                   digitOnly: formState.isINR,
                   disabled: formState.isTotalInvestementActivated,
                   onChanged: (newValue) =>
@@ -114,12 +162,17 @@ class CalculatorForm extends StatelessWidget {
           ],
         ),
         ElevatedButton(
-          onPressed: () {},
+          onPressed: () => onCalculate(context),
           style: ElevatedButton.styleFrom(elevation: 0),
           child: Text("Calculate"),
         )
       ],
     ));
+  }
+
+  void resetAmountInputs() {
+    _baseAmountController.clear();
+    _totalInvestmentController.clear();
   }
 
   void onChainSizeChanged(BuildContext context, String value) {
@@ -161,5 +214,14 @@ class CalculatorForm extends StatelessWidget {
     } else {
       BlocProvider.of<cubit.FormCubit>(context).activateTotalInvestment();
     }
+  }
+
+  void unFocuskeyboard(BuildContext context) {
+    FocusScope.of(context).unfocus();
+  }
+
+  void onCalculate(BuildContext context) {
+    unFocuskeyboard(context);
+    print("calculated");
   }
 }

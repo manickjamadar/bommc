@@ -9,18 +9,22 @@ class FormCubit extends Cubit<FormState> {
 
   void switchToINR() {
     emit(state.copyWith(isINR: true));
+    _resetAmounts();
   }
 
   void switchToUSD() {
     emit(state.copyWith(isINR: false));
+    _resetAmounts();
   }
 
   void activateTotalInvestment() {
     emit(state.copyWith(isBaseAmountActivated: false));
+    _resetAmounts();
   }
 
   void activateBaseAmount() {
     emit(state.copyWith(isBaseAmountActivated: true));
+    _resetAmounts();
   }
 
   void updateChainSize(double value) {
@@ -45,5 +49,9 @@ class FormCubit extends Cubit<FormState> {
       double amount = value > 0 ? value : 0;
       emit(state.copyWith(totalInvestment: amount, isTouched: true));
     }
+  }
+
+  void _resetAmounts() {
+    emit(state.copyWith(baseAmount: 0, totalInvestment: 0));
   }
 }
